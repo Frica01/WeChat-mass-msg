@@ -1,4 +1,4 @@
-#　Wechat_mass_msg
+# Wechat_mass_msg
 
 微信群发消息，Windows系统客户端（PC端
 
