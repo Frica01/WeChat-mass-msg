@@ -197,9 +197,7 @@ class WxOperation:
                         {'type': 'RedEnvelope', 'name': name, 'msg': msg + f'    {operation}    ' + amount})
                     continue
                 if '引用' in msg and '的消息' in msg:
-                    _msg = msg_node.PaneControl().PaneControl().EditControl(foundIndex=1).Name
-                    be_cited = msg_node.PaneControl().PaneControl().EditControl(foundIndex=2).Name
-                    chat_records.append({'type': 'Cited', 'name': name, 'msg': _msg + '    引用    ' + be_cited})
+                    chat_records.append({'type': 'Cited', 'name': name, 'msg': msg})
                     continue
                 if msg == '[聊天记录]':
                     if not name:
