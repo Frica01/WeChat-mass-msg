@@ -1,4 +1,4 @@
-#　Wechat_mass_msg
+# Wechat_mass_msg
 
 微信群发消息，Windows系统客户端（PC端
 
@@ -24,7 +24,7 @@ pip install uiautomation
 
 ## 使用示例
 
-> 在发送消息 **send_msg** 函数中，无论是发送单条还是多条，都需要传入可迭代对象（eg：list(), typle()...
+> 在发送消息 **send_msg** 函数中，无论是发送单条还是多条，都需要传入可迭代对象（eg：list(), tuple()...
 >
 > 可以同时发送**文本** 和 **文件**，但不可同时都不发送！至少发送其中一种。
 
