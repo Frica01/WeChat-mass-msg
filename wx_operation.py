@@ -108,7 +108,7 @@ class WxOperation:
 
     def get_friend_list(self, tag: str = None, num: int = 10) -> list:
         """
-        获取微好友名称.
+        获取微信好友名称.
 
         Args:
             tag(str): 可选参数，如不指定，则获取所有好友
@@ -147,6 +147,69 @@ class WxOperation:
                 name_list.append(remark_name if remark_name else nick_name)
         contacts_management_window.SendKey(auto.SpecialKeyNames['ESC'])  # 结束时候关闭 "通讯录管理" 窗口
         return list(set(name_list))  # 简单去重，但是存在误判（如果存在同名的好友
+
+    def get_chat_records(self, page: int = 1) -> list:
+        """
+        获取聊天列表的聊天记录.
+
+        Args:
+            page(int): 可选参数，如不指定，只获取1页聊天记录
+
+        Returns:
+            list
+        """
+        chat_records = list()
+
+        def extract_msg() -> None:
+            all_msgs = self.wx_window.ListControl(Name="消息").GetChildren()
+            for msg_node in all_msgs:
+                msg = msg_node.Name
+                if not msg:
+                    continue
+                if msg_node.PaneControl().Name:
+                    chat_records.append({'type': 'Time', 'name': 'System', 'msg': msg_node.PaneControl().Name})
+                    continue
+                if msg in ['以下为新消息', '查看更多消息', '该类型文件可能存在安全风险，建议先检查文件安全性后再打开。', '已撤回']:
+                    chat_records.append({'type': 'System', 'name': 'System', 'msg': msg})
+                    continue
+                if '撤回了一条消息' in msg or '尝试撤回上一条消息' in msg:
+                    chat_records.append(
+                        {'type': 'Other', 'name': ''.join(msg.split(' ')[:-1]), 'msg': msg.split(' ')[-1]})
+                    continue
+                if msg in ['发出红包，请在手机上查看', '收到红包，请在手机上查看', '你发送了一次转账收款提醒，请在手机上查看', '你收到了一次转账收款提醒，请在手机上查看']:
+                    chat_records.append({'type': 'RedEnvelope', 'name': 'System', 'msg': msg})
+                    continue
+                if '领取了你的红包' in msg:
+                    _ = msg.split('领取了你的红包')
+                    chat_records.append({'type': 'RedEnvelope', 'name': _[0], 'msg': _[1]})
+                    continue
+                name = msg_node.ButtonControl(foundIndex=1).Name
+                if msg == '[文件]':
+                    file_name = msg_node.PaneControl().TextControl(foundIndex=1).Name
+                    size = msg_node.PaneControl().TextControl(foundIndex=2).Name
+                    chat_records.append(
+                        {'type': 'File', 'name': name, 'msg': f'size: {size}  ---  file_name: {file_name}'})
+                    continue
+                if msg == '微信转账':
+                    operation = msg_node.PaneControl().TextControl(foundIndex=2).Name
+                    amount = msg_node.PaneControl().TextControl(foundIndex=3).Name
+                    chat_records.append(
+                        {'type': 'RedEnvelope', 'name': name, 'msg': msg + f'    {operation}    ' + amount})
+                    continue
+                if '引用' in msg and '的消息' in msg:
+                    _msg = msg_node.PaneControl().PaneControl().EditControl(foundIndex=1).Name
+                    be_cited = msg_node.PaneControl().PaneControl().EditControl(foundIndex=2).Name
+                    chat_records.append({'type': 'Cited', 'name': name, 'msg': _msg + '    引用    ' + be_cited})
+                    continue
+                if msg == '[聊天记录]':
+                    if not name:
+                        name = msg_node.ButtonControl(foundIndex=2).Name
+                chat_records.append({'type': 'Content', 'name': name, 'msg': msg})
+
+        for _ in range(page):
+            self.wx_window.WheelUp(wheelTimes=15)
+        extract_msg()
+        return chat_records
 
     def send_msg(self, *names: str or Iterable, msgs: Iterable = None, file_paths: Iterable = None) -> None:
         """
