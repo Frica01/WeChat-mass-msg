@@ -148,6 +148,19 @@ class WxOperation:
         contacts_management_window.SendKey(auto.SpecialKeyNames['ESC'])  # 结束时候关闭 "通讯录管理" 窗口
         return list(set(name_list))  # 简单去重，但是存在误判（如果存在同名的好友
 
+    def get_group_chat_list(self) -> list:
+        """获取群聊通讯录中的用户名称"""
+        name_list = list()
+        auto.ButtonControl(Name='聊天信息').Click()
+        time.sleep(0.5)
+        chat_members_win = self.wx_window.ListControl(Name='聊天成员')
+        if not chat_members_win.Exists():
+            return list()
+        self.wx_window.ButtonControl(Name='查看更多').Click()
+        for item in chat_members_win.GetChildren():
+            name_list.append(item.ButtonControl().Name)
+        return name_list
+
     def get_chat_records(self, page: int = 1) -> list:
         """
         获取聊天列表的聊天记录.
