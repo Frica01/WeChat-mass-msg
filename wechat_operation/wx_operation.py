@@ -42,7 +42,7 @@ class WxOperation:
     """
 
     def __init__(self):
-        auto.SendKeys(text='{Alt}{Ctrl}w')  # 快捷键唤醒微信
+        auto.SendKeys(text='{Alt}{Ctrl}z')  # 快捷键唤醒微信
         self.wx_window = auto.WindowControl(Name='微信', ClassName='WeChatMainWndForPC')
         assert self.wx_window.Exists(), "窗口不存在"
         self.input_edit = self.wx_window.EditControl(Name='输入')
@@ -244,3 +244,8 @@ class WxOperation:
                 self.__send_text(*msgs)
             if file_paths:
                 self.__send_file(*file_paths)
+
+
+if __name__ == '__main__':
+    wx = WxOperation()
+    wx.get_friend_list(tag='123')
