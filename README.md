@@ -9,10 +9,14 @@
 
 ## 界面展示
 **主页面**
+
 ![](images/main.png)
 
+---
 
 **关于页面**
+
+
 ![](images/about.png)
 
 ## 依赖
