@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'aboutZmLqYf.ui'
+## Form generated from reading UI file 'aboutSHkXCC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -13,7 +13,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_Frame(object):
+class AboutFrame(object):
     def setupUi(self, Frame):
         if not Frame.objectName():
             Frame.setObjectName(u"Frame")
@@ -99,22 +99,22 @@ class Ui_Frame(object):
 "")
         self.mainwidget = QWidget(Frame)
         self.mainwidget.setObjectName(u"mainwidget")
-        self.mainwidget.setGeometry(QRect(20, 10, 361, 271))
+        self.mainwidget.setGeometry(QRect(10, 10, 331, 241))
         self.button_close = QPushButton(self.mainwidget)
         self.button_close.setObjectName(u"button_close")
-        self.button_close.setGeometry(QRect(330, 20, 16, 16))
+        self.button_close.setGeometry(QRect(300, 10, 16, 16))
         self.button_close.setFlat(True)
         self.button_min = QPushButton(self.mainwidget)
         self.button_min.setObjectName(u"button_min")
-        self.button_min.setGeometry(QRect(270, 20, 16, 16))
+        self.button_min.setGeometry(QRect(240, 10, 16, 16))
         self.button_min.setFlat(True)
         self.button_max = QPushButton(self.mainwidget)
         self.button_max.setObjectName(u"button_max")
-        self.button_max.setGeometry(QRect(300, 20, 16, 16))
+        self.button_max.setGeometry(QRect(270, 10, 16, 16))
         self.button_max.setFlat(True)
         self.label = QLabel(self.mainwidget)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(30, 10, 111, 41))
+        self.label.setGeometry(QRect(10, 0, 111, 41))
         font = QFont()
         font.setFamily(u"\u5fae\u8f6f\u96c5\u9ed1")
         font.setBold(False)
@@ -127,13 +127,13 @@ class Ui_Frame(object):
 "")
         self.button_bug = QPushButton(self.mainwidget)
         self.button_bug.setObjectName(u"button_bug")
-        self.button_bug.setGeometry(QRect(40, 230, 91, 31))
+        self.button_bug.setGeometry(QRect(40, 200, 91, 31))
         self.button_access = QPushButton(self.mainwidget)
         self.button_access.setObjectName(u"button_access")
-        self.button_access.setGeometry(QRect(220, 230, 91, 31))
+        self.button_access.setGeometry(QRect(210, 200, 91, 31))
         self.textBrowser = QTextBrowser(self.mainwidget)
         self.textBrowser.setObjectName(u"textBrowser")
-        self.textBrowser.setGeometry(QRect(40, 70, 281, 131))
+        self.textBrowser.setGeometry(QRect(20, 50, 291, 131))
 
         self.retranslateUi(Frame)
 

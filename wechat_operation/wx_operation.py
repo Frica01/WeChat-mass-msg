@@ -126,25 +126,31 @@ class WxOperation:
         self.wx_window.ButtonControl(Name="通讯录").Click()
         self.wx_window.ListControl(Name="联系人").ButtonControl(Name="通讯录管理").Click()
         contacts_management_window = auto.GetForegroundControl()  # 切换到通讯录管理，相当于切换到弹出来的页面
+        contacts_management_window.ButtonControl(Name='最大化').Click()
 
         if tag:
             click_tag()  # 点击标签
             contacts_management_window.PaneControl(Name=tag).Click()
             time.sleep(0.3)
             click_tag()  # 关闭标签
-
         # 获取滑动模式
         scroll = contacts_management_window.ListControl().GetScrollPattern()
-        assert scroll, "没有可滑动对象"
+        # assert scroll, "没有可滑动对象"
         name_list = list()
-        rate: int = int(float(102000 / num))  # 根据输入的num计算滑动的步长
-        for pct in range(0, 102000, rate):  # range不支持float，不导入numpy库，采取迂回这的方式
-            # 每次滑动一点点，-1代表不用滑动
-            scroll.SetScrollPercent(horizontalPercent=-1, verticalPercent=pct / 100000)
+        if not scroll:
             for name_node in contacts_management_window.ListControl().GetChildren():  # 获取当前页面的 列表 -> 子节点
                 nick_name = name_node.TextControl().Name  # 用户名
                 remark_name = name_node.ButtonControl(foundIndex=2).Name  # 用户备注名，索引1会错位，索引2是备注名，索引3是标签名
                 name_list.append(remark_name if remark_name else nick_name)
+        else:
+            rate: int = int(float(102000 / num))  # 根据输入的num计算滑动的步长
+            for pct in range(0, 102000, rate):  # range不支持float，不导入numpy库，采取迂回这的方式
+                # 每次滑动一点点，-1代表不用滑动
+                scroll.SetScrollPercent(horizontalPercent=-1, verticalPercent=pct / 100000)
+                for name_node in contacts_management_window.ListControl().GetChildren():  # 获取当前页面的 列表 -> 子节点
+                    nick_name = name_node.TextControl().Name  # 用户名
+                    remark_name = name_node.ButtonControl(foundIndex=2).Name  # 用户备注名，索引1会错位，索引2是备注名，索引3是标签名
+                    name_list.append(remark_name if remark_name else nick_name)
         contacts_management_window.SendKey(auto.SpecialKeyNames['ESC'])  # 结束时候关闭 "通讯录管理" 窗口
         return list(set(name_list))  # 简单去重，但是存在误判（如果存在同名的好友
 
@@ -244,8 +250,3 @@ class WxOperation:
                 self.__send_text(*msgs)
             if file_paths:
                 self.__send_file(*file_paths)
-
-
-if __name__ == '__main__':
-    wx = WxOperation()
-    wx.get_friend_list(tag='123')
