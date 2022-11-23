@@ -41,10 +41,10 @@ wx.send_msg('好友名称', msgs=['hello', 'world'])
 wx.send_msg('好友名称', file_paths=['README.md', 'wx_operation.py'])
 
 # 发送文本和文件
-wx.send_msg('好友名称',  msgs=['hello', 'world'], ['README.md', 'wx_operation.py'])
+wx.send_msg('好友名称',  msgs=['hello', 'world'], file_paths=['README.md', 'wx_operation.py'])
 
 # 批量发送
-wx.send_msg(*['好友1','好友2'...], msgs=['hello', 'world'], ['README.md', 'wx_operation.py'])
+wx.send_msg(*['好友1','好友2'...], msgs=['hello', 'world'], file_paths=['README.md', 'wx_operation.py'])
 
 # 获取微信好友
 wx.get_friend_list()	# 获取全部好友

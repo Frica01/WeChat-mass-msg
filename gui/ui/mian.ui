@@ -74,6 +74,14 @@ QPushButton[flat=&quot;false&quot;]#button_about{
 	font: 12px &quot;Microsoft YaHei&quot;;
 }
 
+QPushButton#button_about:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 153, 153, 255), stop:1 rgba(255, 136, 136, 255));
+}
+QPushButton#button_about:pressed{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(190, 115, 115, 255), stop:1 rgba(255, 153, 153, 255));
+}
+
+
 QPushButton:hover{
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 153, 153, 255), stop:1 rgba(255, 136, 136, 255));
 }
@@ -109,6 +117,7 @@ QListWidget{
 	border-radius:15px;
 	padding: 5px;
 	background-color: rgb(255, 255, 255);
+	font:12px;
 }
 QListWidget::item{
 	border: 1px dashed rgb(255, 204, 153);
@@ -146,16 +155,16 @@ QGroupBox::title{
       <x>50</x>
       <y>30</y>
       <width>421</width>
-      <height>521</height>
+      <height>461</height>
      </rect>
     </property>
     <widget class="QGroupBox" name="gbox_file">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>200</y>
+       <y>150</y>
        <width>401</width>
-       <height>121</height>
+       <height>111</height>
       </rect>
      </property>
      <property name="title">
@@ -178,7 +187,7 @@ QGroupBox::title{
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>80</y>
+        <y>70</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -192,7 +201,7 @@ QGroupBox::title{
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>320</y>
+       <y>260</y>
        <width>401</width>
        <height>151</height>
       </rect>
@@ -216,7 +225,7 @@ QGroupBox::title{
      <widget class="QCheckBox" name="cbox_select_tag">
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>160</x>
         <y>30</y>
         <width>101</width>
         <height>31</height>
@@ -255,10 +264,10 @@ QGroupBox::title{
        </rect>
       </property>
       <property name="placeholderText">
-       <string>输入好友昵称以换行分割...</string>
+       <string>输入好友昵称，以换行分割...</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="button_reset_file_2">
+     <widget class="QPushButton" name="button_reset_addressee">
       <property name="geometry">
        <rect>
         <x>300</x>
@@ -276,9 +285,12 @@ QGroupBox::title{
        <rect>
         <x>150</x>
         <y>60</y>
-        <width>111</width>
+        <width>121</width>
         <height>81</height>
        </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
       <property name="placeholderText">
        <string>指定收件人标签，可不选...</string>
@@ -291,7 +303,7 @@ QGroupBox::title{
        <x>10</x>
        <y>60</y>
        <width>401</width>
-       <height>141</height>
+       <height>91</height>
       </rect>
      </property>
      <property name="title">
@@ -302,8 +314,8 @@ QGroupBox::title{
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>381</width>
-        <height>111</height>
+        <width>281</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="html">
@@ -317,14 +329,27 @@ p, li { white-space: pre-wrap; }
        <string>在此处输入文本...</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="button_reset_msg">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>40</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>重置输入</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QListWidget" name="lw_select_file">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>220</y>
+       <y>170</y>
        <width>281</width>
-       <height>91</height>
+       <height>81</height>
       </rect>
      </property>
     </widget>
@@ -380,7 +405,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>290</x>
-       <y>480</y>
+       <y>420</y>
        <width>81</width>
        <height>31</height>
       </rect>
@@ -393,7 +418,7 @@ p, li { white-space: pre-wrap; }
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>480</y>
+       <y>420</y>
        <width>81</width>
        <height>31</height>
       </rect>
