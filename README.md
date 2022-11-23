@@ -2,7 +2,18 @@
 
 微信群发消息，Windows系统客户端（PC端
 
+## 主要技术
+- gui使用了pyside2
+- 操作WeChat的模块是 uiautomation
 
+
+## 界面展示
+**主页面**
+![](images/main.png)
+
+
+**关于页面**
+![](images/about.png)
 
 ## 依赖
 
@@ -23,7 +34,13 @@ pip install -r requirements.txt
 
 
 ## 使用示例
+> 直接运行 main.py
 
+
+
+**操作WeChat的代码**
+
+wechat_operation/wx_operation.py
 > 在发送消息 **send_msg** 函数中，无论是发送单条还是多条，都需要传入可迭代对象（eg：list(), tuple()...
 >
 > 可以同时发送**文本** 和 **文件**，但不可同时都不发送！至少发送其中一种。
