@@ -7,7 +7,7 @@
 ## 依赖
 
 ```python
-pip install uiautomation
+pip install -r requirements.txt
 ```
 
 
