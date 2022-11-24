@@ -19,12 +19,18 @@
 
 ![](images/about.png)
 
-## 依赖
+## 安装依赖
 
-```python
+```bash
 pip install -r requirements.txt
 ```
 
+
+## 关于打包
+- 当然，不打包直接执行 main.py，也是一样使用的。
+```bash
+pyinstaller -F -w --icon=gui/icon/icon.ico main.py
+```
 
 
 ## 注意事项
@@ -33,18 +39,18 @@ pip install -r requirements.txt
 
 - 需要先登录好Windows系统客户端的微信
 
-- 使用了PC端默认的快捷键 **Ctrl + Alt + W** 打开微信，如果更改了默认快捷键，则将**45行**的快捷键修改为你电脑的快捷键。
 
-
+- 唤醒WeChat默认快捷键为**Ctrl + Alt + W**，这里我使用了自定义的快捷键**Ctrl + Alt + Z**， 
+  可在 **wechat_operation/wx_operation.py** 的 **45行** 处修改为你对应的快捷键。
+  
 
 ## 使用示例
 > 直接运行 main.py
 
 
-
 **操作WeChat的代码**
 
-wechat_operation/wx_operation.py
+- wechat_operation/wx_operation.py
 > 在发送消息 **send_msg** 函数中，无论是发送单条还是多条，都需要传入可迭代对象（eg：list(), tuple()...
 >
 > 可以同时发送**文本** 和 **文件**，但不可同时都不发送！至少发送其中一种。
