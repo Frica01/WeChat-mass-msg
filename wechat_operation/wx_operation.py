@@ -53,7 +53,7 @@ class WxOperation:
         跳转到指定 name好友的聊天窗口。
 
         Args:
-            name(str): 必选参数，好友名称 
+            name(str): 必选参数，好友名称
 
         Returns:
             None
@@ -101,7 +101,11 @@ class WxOperation:
             assert os.path.exists(full_path), f"{full_path} 文件路径有误"
             all_path += "'" + full_path + "',"
         args = ['powershell', f'Get-Item {all_path[:-1]} | Set-Clipboard']
-        subprocess.Popen(args=args)
+        # 去除console 弹窗
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags = subprocess.CREATE_NEW_CONSOLE | subprocess.STARTF_USESHOWWINDOW
+        startupinfo.wShowWindow = subprocess.SW_HIDE
+        subprocess.Popen(args=args, startupinfo=startupinfo)
         time.sleep(0.5)
         self.input_edit.SendKeys(text='{Ctrl}v', waitTime=0.2)
         self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
@@ -126,7 +130,7 @@ class WxOperation:
         self.wx_window.ButtonControl(Name="通讯录").Click()
         self.wx_window.ListControl(Name="联系人").ButtonControl(Name="通讯录管理").Click()
         contacts_management_window = auto.GetForegroundControl()  # 切换到通讯录管理，相当于切换到弹出来的页面
-        contacts_management_window.ButtonControl(Name='最大化').Click()
+        # contacts_management_window.ButtonControl(Name='最大化').Click()
 
         if tag:
             click_tag()  # 点击标签
