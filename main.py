@@ -10,7 +10,7 @@ from gui.win.main_win import MainWindow
 
 
 try:
-    myapp_id = 'mycompany.myproduct.subproduct.version'
+    myapp_id = 'company.product.sub_product.version'
     windll.shell32.SetCurrentProcessExplicitAppUserModelID(myapp_id)
 except ImportError:
     pass
