@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>600</height>
+    <width>530</width>
+    <height>536</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,14 +41,6 @@ QTextEdit{
 	background-color: rgb(255, 255, 255);
 	border-radius: 10px;
 	border: 2px solid rgb(255, 153, 153);
-	padding-left: 5px;
-	padding-right: 5px;
-}
-QTextEdit#te_msg{
-	color: rgb(0, 0, 0);
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	border: 2px solid rgb(255, 255, 255);
 	padding-left: 5px;
 	padding-right: 5px;
 }
@@ -162,7 +154,7 @@ QGroupBox::title{
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>150</y>
+       <y>160</y>
        <width>401</width>
        <height>111</height>
       </rect>
@@ -201,9 +193,9 @@ QGroupBox::title{
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
+       <y>270</y>
        <width>401</width>
-       <height>151</height>
+       <height>141</height>
       </rect>
      </property>
      <property name="title">
@@ -212,9 +204,9 @@ QGroupBox::title{
      <widget class="QCheckBox" name="cbox_select_all_f">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>30</y>
-        <width>101</width>
+        <x>280</x>
+        <y>20</y>
+        <width>111</width>
         <height>31</height>
        </rect>
       </property>
@@ -225,9 +217,9 @@ QGroupBox::title{
      <widget class="QCheckBox" name="cbox_select_tag">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>30</y>
-        <width>101</width>
+        <x>150</x>
+        <y>20</y>
+        <width>111</width>
         <height>31</height>
        </rect>
       </property>
@@ -238,9 +230,9 @@ QGroupBox::title{
      <widget class="QCheckBox" name="cbox_inpu_f">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>30</y>
-        <width>101</width>
+        <x>10</x>
+        <y>20</y>
+        <width>111</width>
         <height>31</height>
        </rect>
       </property>
@@ -258,7 +250,7 @@ QGroupBox::title{
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
+        <y>50</y>
         <width>121</width>
         <height>81</height>
        </rect>
@@ -271,7 +263,7 @@ QGroupBox::title{
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>100</y>
+        <y>90</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -284,7 +276,7 @@ QGroupBox::title{
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>60</y>
+        <y>50</y>
         <width>121</width>
         <height>81</height>
        </rect>
@@ -303,7 +295,7 @@ QGroupBox::title{
        <x>10</x>
        <y>60</y>
        <width>401</width>
-       <height>91</height>
+       <height>101</height>
       </rect>
      </property>
      <property name="title">
@@ -314,9 +306,15 @@ QGroupBox::title{
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>281</width>
-        <height>61</height>
+        <width>141</width>
+        <height>75</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>75</height>
+       </size>
       </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -342,12 +340,44 @@ p, li { white-space: pre-wrap; }
        <string>重置输入</string>
       </property>
      </widget>
+     <widget class="QTextEdit" name="te_msg_newline">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>120</width>
+        <height>75</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>75</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>75</height>
+       </size>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei'; font-size:14px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="placeholderText">
+       <string>在此输入带换行符的文本...</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QListWidget" name="lw_select_file">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>170</y>
+       <y>180</y>
        <width>281</width>
        <height>81</height>
       </rect>
