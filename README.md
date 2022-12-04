@@ -6,8 +6,12 @@
 - gui使用了pyside2
 - 操作WeChat的模块是 uiautomation
 
-
 ## 界面展示
+
+> 值得注意的是：屏幕分辨率不一致，所展现的gui会有些许偏差，不想处理这个臭问题。
+
+
+
 **主页面**
 
 ![](images/main.png)
