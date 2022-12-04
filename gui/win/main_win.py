@@ -14,9 +14,13 @@ def wx_operation(data: list):
     # 暂不考虑重名的好友
     friend_list = list()
     wx = WxOperation()
-    msgs, files, friends, tags, all_friend = data
+    msgs, newline_msg, files, friends, tags, all_friend = data
+    msgs_list = list()
     if msgs:
-        msgs = [msg for msg in msgs.split()]
+        msgs_list = [msg for msg in msgs.split()]
+    if newline_msg:
+        msgs_list.extend(['\n'.join(newline_msg.split('\n'))])
+
     if all_friend:
         friend_list: list = wx.get_friend_list()
     else:
@@ -26,7 +30,7 @@ def wx_operation(data: list):
         if tags:
             for tag in tags.split():
                 [friend_list.append(_) for _ in wx.get_friend_list(tag=tag)]
-    wx.send_msg(*friend_list, msgs=msgs, file_paths=files)
+    wx.send_msg(*friend_list, msgs=msgs_list, file_paths=files)
 
 
 class MainWindow(QMainWindow, UiMainWindow):
@@ -70,11 +74,12 @@ class MainWindow(QMainWindow, UiMainWindow):
 
     def get_panel_data(self):
         msgs = self.te_msg.toPlainText()
+        newline_msg = self.te_msg_newline.toPlainText()
         files = [self.lw_select_file.item(row).text() for row in range(self.lw_select_file.count())]
         friends = self.te_input_f_name.toPlainText()
         tags = self.te_tag.toPlainText()
         all_friend = True if self.cbox_select_all_f.checkState() else False
-        wx_operation(data=[msgs, files, friends, tags, all_friend])
+        wx_operation(data=[msgs, newline_msg, files, friends, tags, all_friend])
 
     def reset_addressee(self):
         self.te_input_f_name.clear()
