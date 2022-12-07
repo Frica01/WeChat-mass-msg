@@ -17,7 +17,7 @@ def wx_operation(data: list):
     msgs, newline_msg, files, friends, tags, all_friend = data
     msgs_list = list()
     if msgs:
-        msgs_list = [msg for msg in msgs.split()]
+        msgs_list = [msg for msg in msgs.split('\n')]
     if newline_msg:
         msgs_list.extend(['\n'.join(newline_msg.split('\n'))])
 
