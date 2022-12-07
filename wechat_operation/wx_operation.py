@@ -62,7 +62,8 @@ class WxOperation:
         self.wx_window.SendKeys(text='{Ctrl}f', waitTime=0.2)
         self.wx_window.SendKeys(text='{Ctrl}a', waitTime=0.1)
         self.wx_window.SendKey(key=auto.SpecialKeyNames['DELETE'])
-        self.search_edit.SendKeys(text=name, waitTime=0.5)
+        auto.SetClipboardText(text=name)
+        self.wx_window.SendKeys(text='{Ctrl}v', waitTime=0.1)
         self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
 
     def __send_text(self, *msgs) -> None:
