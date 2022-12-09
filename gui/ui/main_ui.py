@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainHBoSuz.ui'
+## Form generated from reading UI file 'mainxHELiC.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -165,7 +165,7 @@ class UiMainWindow(object):
         self.gbox_addressee.setGeometry(QRect(10, 270, 401, 141))
         self.cbox_select_all_f = QCheckBox(self.gbox_addressee)
         self.cbox_select_all_f.setObjectName(u"cbox_select_all_f")
-        self.cbox_select_all_f.setGeometry(QRect(280, 20, 111, 31))
+        self.cbox_select_all_f.setGeometry(QRect(290, 20, 101, 31))
         self.cbox_select_tag = QCheckBox(self.gbox_addressee)
         self.cbox_select_tag.setObjectName(u"cbox_select_tag")
         self.cbox_select_tag.setGeometry(QRect(150, 20, 111, 31))
@@ -193,12 +193,15 @@ class UiMainWindow(object):
         self.te_msg.setMinimumSize(QSize(120, 75))
         self.button_reset_msg = QPushButton(self.gbox_msg)
         self.button_reset_msg.setObjectName(u"button_reset_msg")
-        self.button_reset_msg.setGeometry(QRect(300, 40, 81, 31))
+        self.button_reset_msg.setGeometry(QRect(300, 60, 81, 31))
         self.te_msg_newline = QTextEdit(self.gbox_msg)
         self.te_msg_newline.setObjectName(u"te_msg_newline")
         self.te_msg_newline.setGeometry(QRect(160, 20, 120, 75))
         self.te_msg_newline.setMinimumSize(QSize(120, 75))
         self.te_msg_newline.setMaximumSize(QSize(120, 75))
+        self.cbox_add_remark_name = QCheckBox(self.gbox_msg)
+        self.cbox_add_remark_name.setObjectName(u"cbox_add_remark_name")
+        self.cbox_add_remark_name.setGeometry(QRect(290, 20, 101, 31))
         self.lw_select_file = QListWidget(self.widget)
         self.lw_select_file.setObjectName(u"lw_select_file")
         self.lw_select_file.setGeometry(QRect(20, 180, 281, 81))
@@ -274,6 +277,8 @@ class UiMainWindow(object):
         self.te_msg_newline.setPlaceholderText(QCoreApplication.translate("MainWindow",
                                                                           u"\u5728\u6b64\u8f93\u5165\u5e26\u6362\u884c\u7b26\u7684\u6587\u672c...",
                                                                           None))
+        self.cbox_add_remark_name.setText(
+            QCoreApplication.translate("MainWindow", u"\u6d88\u606f\u6dfb\u52a0\u5907\u6ce8", None))
         self.button_max.setText("")
         self.button_close.setText("")
         self.button_min.setText("")

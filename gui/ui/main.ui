@@ -204,9 +204,9 @@ QGroupBox::title{
      <widget class="QCheckBox" name="cbox_select_all_f">
       <property name="geometry">
        <rect>
-        <x>280</x>
+        <x>290</x>
         <y>20</y>
-        <width>111</width>
+        <width>101</width>
         <height>31</height>
        </rect>
       </property>
@@ -331,7 +331,7 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>40</y>
+        <y>60</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -370,6 +370,19 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="placeholderText">
        <string>在此输入带换行符的文本...</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbox_add_remark_name">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>消息添加备注</string>
       </property>
      </widget>
     </widget>
