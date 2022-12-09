@@ -9,6 +9,7 @@ import os
 import time
 import subprocess
 import uiautomation as auto
+from copy import deepcopy
 from typing import Iterable
 
 
@@ -233,14 +234,15 @@ class WxOperation:
         extract_msg()
         return chat_records
 
-    def send_msg(self, *names: str or Iterable, msgs: Iterable = None, file_paths: Iterable = None) -> None:
+    def send_msg(self, *names, msgs, file_paths, add_remark_name=False) -> None:
         """
         发送消息，可同时发送文本和文件（至少选一项
 
         Args:
             *names (str or Iterable):必选参数，接收消息的好友名称，可以群发，也可以单发
-            msgs (Iterable): 可选参数，发送的文本消息
+            msgs (list): 可选参数，发送的文本消息
             file_paths (Iterable):可选参数，发送的文件路径
+            add_remark_name(bool): 可选参数，是否添加备注名称发送
 
         Returns:
             None
@@ -252,6 +254,11 @@ class WxOperation:
         for name in names:
             self.__goto_chat_box(name=name)
             if msgs:
-                self.__send_text(*msgs)
+                if add_remark_name:
+                    new_msgs = deepcopy(msgs)
+                    new_msgs.insert(0, name)
+                    self.__send_text(*new_msgs)
+                else:
+                    self.__send_text(*msgs)
             if file_paths:
                 self.__send_file(*file_paths)
