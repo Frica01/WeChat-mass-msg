@@ -23,7 +23,7 @@ def get_records() -> list:
 def get_response(msg: str):
     """获取回答的内容"""
     # Set your API key
-    openai.api_key = "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"
+    openai.api_key = "sk-你的的api_key"
     # Use the GPT-3 model
     msg += "，需要使用中文回答"
     completion = openai.Completion.create(
