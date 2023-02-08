@@ -194,7 +194,10 @@ class WxOperation:
                 if msg_node.PaneControl().Name:
                     chat_records.append({'type': 'Time', 'name': 'System', 'msg': msg_node.PaneControl().Name})
                     continue
-                if msg in ['以下为新消息', '查看更多消息', '该类型文件可能存在安全风险，建议先检查文件安全性后再打开。', '已撤回']:
+                if '你已添加了' in msg and '现在可以开始聊天了' in msg:
+                    chat_records.append({'type': 'System', 'name': 'System', 'msg': msg})
+                    continue
+                if msg in ['以下为新消息', '查看更多消息', '该类型文件可能存在安全风险，建议先检查文件安全性后再打开。']:
                     chat_records.append({'type': 'System', 'name': 'System', 'msg': msg})
                     continue
                 if '撤回了一条消息' in msg or '尝试撤回上一条消息' in msg:
