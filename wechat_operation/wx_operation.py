@@ -6,11 +6,14 @@
 """微信群发消息"""
 
 import os
-import time
 import subprocess
-import uiautomation as auto
+import time
 from copy import deepcopy
 from typing import Iterable
+
+import uiautomation as auto
+
+auto.SetGlobalSearchTimeout(3)
 
 
 class WxOperation:
@@ -46,7 +49,7 @@ class WxOperation:
         auto.SendKeys(text='{Alt}{Ctrl}z')  # 快捷键唤醒微信
         self.wx_window = auto.WindowControl(Name='微信', ClassName='WeChatMainWndForPC')
         assert self.wx_window.Exists(), "窗口不存在"
-        self.input_edit = self.wx_window.EditControl(Name='输入')
+        # self.input_edit = self.wx_window.EditControl(Name='输入')
         self.search_edit = self.wx_window.EditControl(Name='搜索')
 
     def __goto_chat_box(self, name: str) -> None:
@@ -66,12 +69,14 @@ class WxOperation:
         auto.SetClipboardText(text=name)
         self.wx_window.SendKeys(text='{Ctrl}v', waitTime=0.1)
         self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
+        time.sleep(1)
 
-    def __send_text(self, *msgs) -> None:
+    def __send_text(self, input_name, *msgs) -> None:
         """
         发送文本.
 
         Args:
+            input_name(str): 必选参数, 为输入框
             *msgs(Iterable or str): 必选参数，为发送的文本
 
         Returns:
@@ -79,6 +84,11 @@ class WxOperation:
         """
         for msg in msgs:
             assert msg, "发送的文本内容为空"
+            # 捕捉错误, 如果定位不到指定的聊天输入框, 则跳过本次发送 # TODO 添加未处理记录
+            try:
+                self.input_edit = self.wx_window.EditControl(Name=input_name)
+            except LookupError:
+                continue
             self.input_edit.SendKeys(text='{Ctrl}a', waitTime=0.1)
             self.input_edit.SendKey(key=auto.SpecialKeyNames['DELETE'])
             # self.input_edit.SendKeys(text=msg, waitTime=0.1) # 一个个字符插入,不建议使用该方法
@@ -204,7 +214,8 @@ class WxOperation:
                     chat_records.append(
                         {'type': 'Other', 'name': ''.join(msg.split(' ')[:-1]), 'msg': msg.split(' ')[-1]})
                     continue
-                if msg in ['发出红包，请在手机上查看', '收到红包，请在手机上查看', '你发送了一次转账收款提醒，请在手机上查看', '你收到了一次转账收款提醒，请在手机上查看']:
+                if msg in ['发出红包，请在手机上查看', '收到红包，请在手机上查看',
+                           '你发送了一次转账收款提醒，请在手机上查看', '你收到了一次转账收款提醒，请在手机上查看']:
                     chat_records.append({'type': 'RedEnvelope', 'name': 'System', 'msg': msg})
                     continue
                 if '领取了你的红包' in msg:
@@ -237,12 +248,40 @@ class WxOperation:
         extract_msg()
         return chat_records
 
-    def send_msg(self, *names, msgs, file_paths, add_remark_name=False) -> None:
+    # def send_msg(self, *names, msgs, file_paths, add_remark_name=False) -> None:
+    #     """
+    #     发送消息，可同时发送文本和文件（至少选一项
+    #
+    #     Args:
+    #         *names (str or Iterable):必选参数，接收消息的好友名称，可以群发，也可以单发
+    #         msgs (list): 可选参数，发送的文本消息
+    #         file_paths (Iterable):可选参数，发送的文件路径
+    #         add_remark_name(bool): 可选参数，是否添加备注名称发送
+    #
+    #     Returns:
+    #         None
+    #     """
+    #     assert names, "用户名列表为空"
+    #     assert any([msgs, file_paths]), "没有发送任何消息"
+    #     assert not isinstance(msgs, str), "文本必须为可迭代且非字符串类型"
+    #     assert not isinstance(file_paths, str), "文件路径必须为可迭代且非字符串类型"
+    #     for name in names:
+    #         self.__goto_chat_box(name=name)
+    #         # if msgs:
+    #         if add_remark_name:
+    #             new_msgs = deepcopy(msgs)
+    #             new_msgs.insert(0, name)
+    #             self.__send_text(name, *new_msgs)
+    #         else:
+    #             self.__send_text(name, *msgs)
+    #         if file_paths:
+    #             self.__send_file(*file_paths)
+    def send_msg(self, name, msgs, file_paths, add_remark_name=False) -> None:
         """
         发送消息，可同时发送文本和文件（至少选一项
 
         Args:
-            *names (str or Iterable):必选参数，接收消息的好友名称，可以群发，也可以单发
+            name (str):必选参数，接收消息的好友名称, 可以单发
             msgs (list): 可选参数，发送的文本消息
             file_paths (Iterable):可选参数，发送的文件路径
             add_remark_name(bool): 可选参数，是否添加备注名称发送
@@ -250,18 +289,20 @@ class WxOperation:
         Returns:
             None
         """
-        assert names, "用户名列表为空"
+        assert name, "用户名列表为空"
         assert any([msgs, file_paths]), "没有发送任何消息"
         assert not isinstance(msgs, str), "文本必须为可迭代且非字符串类型"
         assert not isinstance(file_paths, str), "文件路径必须为可迭代且非字符串类型"
-        for name in names:
-            self.__goto_chat_box(name=name)
-            if msgs:
-                if add_remark_name:
-                    new_msgs = deepcopy(msgs)
-                    new_msgs.insert(0, name)
-                    self.__send_text(*new_msgs)
-                else:
-                    self.__send_text(*msgs)
-            if file_paths:
-                self.__send_file(*file_paths)
+
+        self.__goto_chat_box(name=name)
+        # TODO
+        #  加一个目标用户的捕捉, 节省一个步骤
+        #  加一个传入名称没有100%匹配备注名, 获取当前面板的备注名称
+        if msgs and add_remark_name:
+            new_msgs = deepcopy(msgs)
+            new_msgs.insert(0, name)
+            self.__send_text(name, *new_msgs)
+        else:
+            self.__send_text(name, *msgs)
+        if file_paths:
+            self.__send_file(*file_paths)

@@ -4,8 +4,10 @@
 # @Name   : auto_reply_msg.py
 
 import time
+
 import openai
 import uiautomation as auto
+
 from wx_operation import WxOperation
 
 wx = WxOperation()
@@ -24,7 +26,7 @@ def get_response(msg: str):
     """获取回答的内容"""
     # Set your API key
     openai.api_key = "sk-你的的api_key"
-    # Use the GPT-3 model
+    # Use the GPT-3 models
     msg += "，需要使用中文回答"
     completion = openai.Completion.create(
         engine="text-davinci-002",

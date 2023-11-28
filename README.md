@@ -3,25 +3,23 @@
 微信群发消息，Windows系统客户端（PC端
 
 ## 主要技术
-- gui使用了pyside2
-- 操作WeChat的模块是 uiautomation
+- `gui` 使用了 `pyside6`
+- 操作 `WeChat` 的模块是 `uiautomation`
 
 ## 界面展示
-
-> 值得注意的是：屏幕分辨率不一致，所展现的gui会有些许偏差，不想处理这个臭问题。
 
 
 
 **主页面**
 
-![](images/main.png)
+![](resources/images/main.png)
 
 ---
 
 **关于页面**
 
 
-![](images/about.png)
+![](resources/images/about.png)
 
 ## 安装依赖
 
@@ -33,7 +31,7 @@ pip install -r requirements.txt
 ## 关于打包
 - 当然，不打包直接执行 main.py，也是一样使用的。
 ```bash
-pyinstaller -F -w --icon=gui/icon/icon.ico main.py
+pyinstaller -F -w --icon=resources/icon/icon.ico main.py
 ```
 
 
@@ -45,8 +43,22 @@ pyinstaller -F -w --icon=gui/icon/icon.ico main.py
 
 
 - 唤醒WeChat默认快捷键为**Ctrl + Alt + W**，这里我使用了自定义的快捷键**Ctrl + Alt + Z**， 
-  可在 **wechat_operation/wx_operation.py** 的 **45行** 处修改为你对应的快捷键。
-  
+  可在 **wechat_operation/wx_operation.py** 的 **49行** 处修改为你对应的快捷键。
+
+
+
+## TODO List
+
+- [x] 采用 多线程 `ThreadPool` + `QRunnable`，工具不会卡顿
+- [x] 拆解重构成MVC架构
+- [x] 添加暂停按钮
+- [x] 添加进度条
+- [ ] 最小化到右下方任务栏&快捷键唤醒
+- [ ] 自定义配置，如导入名单，txt、csv、excel等格式
+- [ ] 自定义配置，如发送失败的名单记录导出
+- [ ] ...
+
+
 
 ## 使用示例
 > 直接运行 main.py

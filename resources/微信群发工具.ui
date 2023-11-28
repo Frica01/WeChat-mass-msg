@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>455</width>
+    <height>632</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="maximumSize">
+    <size>
+     <width>800</width>
+     <height>1200</height>
+    </size>
+   </property>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>454</width>
+      <height>632</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">.QWidget#widget{
+	background-color: rgb(255, 255, 255);
+	border-radius:20px;
+}
+/* 设置鼠标悬停时的背景颜色为淡蓝色 */
+QPushButton:hover {
+    background-color: #87CEEB; /* 淡蓝色 */
+}
+
+/* 设置按钮按下时的背景颜色为淡绿色 */
+QPushButton:pressed {
+    background-color: #98FB98; /* 淡绿色 */
+}
+
+/* 设置按钮点击结束后的背景颜色为淡紫色 */
+QPushButton:checked {
+    background-color: #E6E6FA; /* 淡紫色 */
+}
+
+/* 设置按钮上的字体家族和字体大小 */
+QPushButton {
+	font: 13pt &quot;Microsoft YaHei UI&quot;;
+	font: bold
+}
+
+
+
+/* 为名为 btn_about 的 QPushButton 设置不同样式 */
+
+QPushButton[flat=&quot;false&quot;]#btn_about{
+	background-color: rgb(255, 153, 153);
+	color: rgb(255, 255, 255);
+	border-radius: 8px;
+	font: 12px &quot;Microsoft YaHei&quot;;
+}
+
+QPushButton#btn_about:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 153, 153, 255), stop:1 rgba(255, 136, 136, 255));
+}
+QPushButton#btn_about:pressed{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(190, 115, 115, 255), stop:1 rgba(255, 153, 153, 255));
+}
+
+
+
+*{
+	font: 11pt &quot;Microsoft YaHei&quot;;
+	color:rgb(0, 0, 0);
+}</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <property name="leftMargin">
+      <number>2</number>
+     </property>
+     <property name="topMargin">
+      <number>2</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <property name="bottomMargin">
+      <number>2</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QFrame" name="frame_header">
+       <property name="minimumSize">
+        <size>
+         <width>450</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>450</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 255, 255);</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="frame_header_left">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="title">
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei</family>
+               <pointsize>-1</pointsize>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel#title{
+	font: 25px;
+	font-weight: bord
+}</string>
+             </property>
+             <property name="text">
+              <string>Win微信群发工具</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_header_right">
+          <property name="styleSheet">
+           <string notr="true">/* 为名为 btn_about 的 QPushButton 设置不同样式 */
+
+QPushButton[flat=&quot;false&quot;]#btn_about{
+	background-color: rgb(255, 153, 153);
+	color: rgb(255, 255, 255);
+	border-radius: 8px;
+	font: 12px &quot;Microsoft YaHei&quot;;
+}
+
+QPushButton#btn_about:hover{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 153, 153, 255), stop:1 rgba(255, 136, 136, 255));
+}
+QPushButton#btn_about:pressed{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(190, 115, 115, 255), stop:1 rgba(255, 153, 153, 255));
+}
+
+QPushButton#btn_close{
+	background-color: rgb(255, 102, 102);
+	border-radius:8px;
+}
+QPushButton#btn_close:pressed{
+	background-color: rgb(200, 80, 80);
+}
+QPushButton#btn_max{
+	background-color: rgb(255, 255, 102);
+	border-radius:8px;
+}
+QPushButton#btn_max:pressed{
+	background-color: rgb(195, 195, 78);
+}
+QPushButton#btn_min{
+	background-color: rgb(153, 204, 102);
+	border-radius:8px;
+}
+QPushButton#btn_min:pressed{
+	background-color: rgb(126, 168, 83);
+}
+</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item alignment="Qt::AlignRight">
+            <widget class="QFrame" name="frame_header_right_top">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="spacing">
+               <number>8</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignRight">
+               <widget class="QPushButton" name="btn_min">
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_max">
+                <property name="minimumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btn_close">
+                <property name="minimumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_header_right_bottom">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignRight">
+               <widget class="QPushButton" name="btn_about">
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>关于</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QFrame" name="frame_button">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="btn_reset_all">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>重置全部</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_send">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>开始发送</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_pause_or_continue">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>暂停发送</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QGroupBox" name="group_box_msg">
+       <property name="minimumSize">
+        <size>
+         <width>450</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>450</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QGroupBox {
+	border-radius: 10px; /* 设置圆角半径 */
+    border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 0, 255, 255), stop:1 rgba(0, 255, 0, 255));
+}
+
+QFrame#frame_msg_right{
+	    border: 1px solid ;
+}
+</string>
+       </property>
+       <property name="title">
+        <string>消息框</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignHCenter|Qt::AlignTop</set>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="frame_msg_left">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="horizontalSpacing">
+            <number>2</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="QTextEdit" name="text_edit_msg">
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>在此处输入文本...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QTextEdit" name="text_edit_msg_newline">
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>在此处输入带换行的文本...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_msg_right">
+          <property name="minimumSize">
+           <size>
+            <width>126</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>126</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QCheckBox" name="cbox_add_remark_name">
+             <property name="text">
+              <string>添加备注</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_reset_msg_input">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>重置输入</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QGroupBox" name="group_box_recipient">
+       <property name="minimumSize">
+        <size>
+         <width>450</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>450</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox {
+    border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(128, 0, 128, 255), stop:1 rgba(255, 20, 147, 255));
+	border-radius: 10px; /* 设置圆角半径 */
+}
+
+QFrame#frame_recipient_right{
+	    border: 1px solid ;
+}</string>
+       </property>
+       <property name="title">
+        <string>收件人</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignHCenter|Qt::AlignTop</set>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="frame_recipient_left">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="1" column="0">
+            <widget class="QTextEdit" name="text_edit_recipient"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_recipient_right">
+          <property name="minimumSize">
+           <size>
+            <width>126</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>12</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="btn_reset_recipient">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>重置选择</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QRadioButton" name="radio_btn_specify_tag">
+             <property name="text">
+              <string>指定好友标签</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="radio_btn_specify_group">
+             <property name="text">
+              <string>指定群聊名称</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QGroupBox" name="group_box_file">
+       <property name="minimumSize">
+        <size>
+         <width>450</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>450</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox {
+    border: 2px solid qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 0, 0, 255), stop:1 rgba(255, 165, 0, 255));
+}
+
+
+
+
+QFrame#frame_file_right{
+	    border: 1px solid ;
+}
+
+
+
+
+QListWidget {
+	background-color: transparent; /* 设置背景颜色为透明 */
+	border: transparent; /* 设置背景颜色为透明 */
+}</string>
+       </property>
+       <property name="title">
+        <string>文件框</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="frame_file_left">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="list_widget_file">
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_file_right">
+          <property name="minimumSize">
+           <size>
+            <width>126</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>126</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QPushButton" name="btn_add_file">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>添加文件</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_reset_file">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>重置选择</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QFrame" name="frame_progress">
+       <property name="styleSheet">
+        <string notr="true">QFrame#frame_progress{
+	    border: 1px solid ;	
+		border-radius: 10px; /* 设置圆角半径 */	
+}</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+         <widget class="QLabel" name="progress_label">
+          <property name="text">
+           <string>共xx, 已完成xx</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+         <widget class="QProgressBar" name="progress_bar">
+          <property name="value">
+           <number>24</number>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
