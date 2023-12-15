@@ -39,10 +39,19 @@
 2. 完善在没有100%匹配好友昵称时候，获取当前面板的昵称做匹配
     ```python
     # 获取到真实的昵称（获取当前面板的备注名称）, 有时候输入不全, 可以搜索到，但输入内容时候会报错
-    for idx in range(1, 10):
-        name = self.wx_window.TextControl(foundIndex=idx).Name
+   def __get_current_panel_nickname(self) -> str:
+        """获取当前面板的好友昵称"""
+        for idx in range(1, 10):
+            current_panel_nickname = self.wx_window.TextControl(foundIndex=idx).Name
+            if current_panel_nickname:
+                return current_panel_nickname
     ```
-3. 工具启动时，`WeChat`和工具都会置顶，工具关闭是`WeChat`最小化。
+3. 发送消息时，如果当前面板的好友昵称与需发送的好友昵称一直，则无需再次搜索跳转到好友面板
+    ```python
+    if self.__get_current_panel_nickname() != name:
+        self.__goto_chat_box(name=name)
+    ```
+4. 工具启动时，`WeChat`和工具都会置顶，工具关闭时 `WeChat`最小化。
 
 </details>
 

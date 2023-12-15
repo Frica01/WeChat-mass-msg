@@ -70,6 +70,13 @@ class WxOperation:
         win32gui.SetForegroundWindow(hwnd)
         win32gui.ShowWindow(hwnd, win32con.SW_SHOWDEFAULT)
 
+    def __get_current_panel_nickname(self) -> str:
+        """获取当前面板的好友昵称"""
+        for idx in range(1, 10):
+            current_panel_nickname = self.wx_window.TextControl(foundIndex=idx).Name
+            if current_panel_nickname:
+                return current_panel_nickname
+
     def __goto_chat_box(self, name: str) -> None:
         """
         跳转到指定 name好友的聊天窗口。
@@ -284,12 +291,12 @@ class WxOperation:
         assert not isinstance(msgs, str), "文本必须为可迭代且非字符串类型"
         assert not isinstance(file_paths, str), "文件路径必须为可迭代且非字符串类型"
 
-        self.__goto_chat_box(name=name)
-        # 获取到真实的昵称（获取当前面板的备注名称）, 有时候输入不全, 可以搜索到，但输入内容时候会报错
-        for idx in range(1, 10):
-            name = self.wx_window.TextControl(foundIndex=idx).Name
-            if name:
-                break
+        # 如果当前面板已经是需发送好友, 则无需再次搜索跳转
+        if self.__get_current_panel_nickname() != name:
+            self.__goto_chat_box(name=name)
+        # 获取到真实的昵称（获取当前面板的备注名称）, 有时候好友昵称输入不全, 可以匹配到，但输入发送内容时候会报错
+        name = self.__get_current_panel_nickname()
+        #
         if msgs and add_remark_name:
             new_msgs = deepcopy(msgs)
             new_msgs.insert(0, name)
