@@ -21,6 +21,31 @@
 
 ![](resources/images/about.png)
 
+
+## 更新内容
+<details>
+<summary>2023/12/15 更新</summary>
+
+1. 唤醒`WeChat` 由快捷键更改为`Windows`系统层面唤醒微信窗口
+    ```python
+    def __wake_up_window():
+        """唤醒微信窗口"""
+        hwnd = win32gui.FindWindow('WeChatMainWndForPC', '微信')
+        # 展示窗口
+        win32gui.SetForegroundWindow(hwnd)
+        win32gui.ShowWindow(hwnd, win32con.SW_SHOWDEFAULT)
+    ```
+
+2. 完善在没有100%匹配好友昵称时候，获取当前面板的昵称做匹配
+    ```python
+    # 获取到真实的昵称（获取当前面板的备注名称）, 有时候输入不全, 可以搜索到，但输入内容时候会报错
+    for idx in range(1, 10):
+        name = self.wx_window.TextControl(foundIndex=idx).Name
+    ```
+3. 工具启动时，`WeChat`和工具都会置顶，工具关闭是`WeChat`最小化。
+
+</details>
+
 ## 安装依赖
 
 ```bash
@@ -40,10 +65,8 @@ pyinstaller -F -w --icon=resources/icon/icon.ico main.py
 > 不要做坏事，不要做坏事，不要做坏事！！！（不过看起来也做不了坏事
 
 - 需要先登录好Windows系统客户端的微信
-
-
-- 唤醒WeChat默认快捷键为**Ctrl + Alt + W**，这里我使用了自定义的快捷键**Ctrl + Alt + Z**， 
-  可在 **wechat_operation/wx_operation.py** 的 **49行** 处修改为你对应的快捷键。
+- ~~唤醒WeChat默认快捷键为**Ctrl + Alt + W**，这里我使用了自定义的快捷键**Ctrl + Alt + Z**， 
+  可在 **wechat_operation/wx_operation.py** 的 **49行** 处修改为你对应的快捷键。~~
 
 
 

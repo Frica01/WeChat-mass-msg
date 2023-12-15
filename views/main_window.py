@@ -32,11 +32,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.init_window_position()
         self.init_progress()
 
+        # 置顶窗口
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+
     def init_ui(self):
         # 隐藏边框
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.set_graphics_effect()
+
+    @property
+    def is_wx_activated(self) -> bool:
+        """判断微信是否启动"""
+        if not self.controller.has_wx_instance():
+            self.show_message_box('严重错误🆘', "微信未启动!", level='error')
+            return False
+        return True
 
     def set_graphics_effect(self):
         # 添加阴影
@@ -199,8 +210,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # 在 MainWindow 类中重写 closeEvent 方法
     def closeEvent(self, event):
+        self.controller.minimize_wx()   # 最小化微信
         self.controller.thread_pool.waitForDone()  # 等待所有线程完成
         event.accept()
 
-    def show_message_box(self, title, message):
-        QMessageBox.warning(self, title, message)
+    def show_message_box(self, title, message, level='warning'):
+        if level == 'warning':
+            QMessageBox.warning(self, title, message)
+        else:
+            QMessageBox.critical(self, title, message)

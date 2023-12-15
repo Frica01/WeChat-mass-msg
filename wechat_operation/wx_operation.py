@@ -12,6 +12,8 @@ from copy import deepcopy
 from typing import Iterable
 
 import uiautomation as auto
+import win32con
+import win32gui
 
 auto.SetGlobalSearchTimeout(3)
 
@@ -46,11 +48,27 @@ class WxOperation:
     """
 
     def __init__(self):
-        auto.SendKeys(text='{Alt}{Ctrl}z')  # 快捷键唤醒微信
+        self.__wake_up_window()  # Windows系统层面唤醒微信窗口
         self.wx_window = auto.WindowControl(Name='微信', ClassName='WeChatMainWndForPC')
-        assert self.wx_window.Exists(), "窗口不存在"
+        assert self.wx_window.Exists(3, .5), "窗口不存在"
         # self.input_edit = self.wx_window.EditControl(Name='输入')
         self.search_edit = self.wx_window.EditControl(Name='搜索')
+
+    @staticmethod
+    def minimize_wx():
+        """结束时候最小化微信窗口"""
+        hwnd = win32gui.FindWindow('WeChatMainWndForPC', '微信')
+        if win32gui.IsWindowVisible(hwnd):
+            # 展示窗口，以下几行代码都可以唤醒窗口
+            win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
+
+    @staticmethod
+    def __wake_up_window():
+        """唤醒微信窗口"""
+        hwnd = win32gui.FindWindow('WeChatMainWndForPC', '微信')
+        # 展示窗口
+        win32gui.SetForegroundWindow(hwnd)
+        win32gui.ShowWindow(hwnd, win32con.SW_SHOWDEFAULT)
 
     def __goto_chat_box(self, name: str) -> None:
         """
@@ -248,34 +266,6 @@ class WxOperation:
         extract_msg()
         return chat_records
 
-    # def send_msg(self, *names, msgs, file_paths, add_remark_name=False) -> None:
-    #     """
-    #     发送消息，可同时发送文本和文件（至少选一项
-    #
-    #     Args:
-    #         *names (str or Iterable):必选参数，接收消息的好友名称，可以群发，也可以单发
-    #         msgs (list): 可选参数，发送的文本消息
-    #         file_paths (Iterable):可选参数，发送的文件路径
-    #         add_remark_name(bool): 可选参数，是否添加备注名称发送
-    #
-    #     Returns:
-    #         None
-    #     """
-    #     assert names, "用户名列表为空"
-    #     assert any([msgs, file_paths]), "没有发送任何消息"
-    #     assert not isinstance(msgs, str), "文本必须为可迭代且非字符串类型"
-    #     assert not isinstance(file_paths, str), "文件路径必须为可迭代且非字符串类型"
-    #     for name in names:
-    #         self.__goto_chat_box(name=name)
-    #         # if msgs:
-    #         if add_remark_name:
-    #             new_msgs = deepcopy(msgs)
-    #             new_msgs.insert(0, name)
-    #             self.__send_text(name, *new_msgs)
-    #         else:
-    #             self.__send_text(name, *msgs)
-    #         if file_paths:
-    #             self.__send_file(*file_paths)
     def send_msg(self, name, msgs, file_paths, add_remark_name=False) -> None:
         """
         发送消息，可同时发送文本和文件（至少选一项
@@ -295,9 +285,11 @@ class WxOperation:
         assert not isinstance(file_paths, str), "文件路径必须为可迭代且非字符串类型"
 
         self.__goto_chat_box(name=name)
-        # TODO
-        #  加一个目标用户的捕捉, 节省一个步骤
-        #  加一个传入名称没有100%匹配备注名, 获取当前面板的备注名称
+        # 获取到真实的昵称（获取当前面板的备注名称）, 有时候输入不全, 可以搜索到，但输入内容时候会报错
+        for idx in range(1, 10):
+            name = self.wx_window.TextControl(foundIndex=idx).Name
+            if name:
+                break
         if msgs and add_remark_name:
             new_msgs = deepcopy(msgs)
             new_msgs.insert(0, name)

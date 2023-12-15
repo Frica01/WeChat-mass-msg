@@ -28,6 +28,7 @@ class WxController(QObject):
     def __init__(self, model):
         super().__init__()
         self.model = model
+        self.minimize_wx = model.wx_operation.minimize_wx
         #
         self.thread_pool = QThreadPool()
         self.thread_pool.setMaxThreadCount(1)
@@ -38,6 +39,13 @@ class WxController(QObject):
         #
         self.completed_tasks = 0
         self.total_tasks = 0
+
+    # @property
+    def has_wx_instance(self) -> bool:
+        """判断微信是否存在"""
+        if hasattr(self.model, 'wx_operation'):
+            return True
+        return False
 
     def toggle_pause(self):
         self.paused = not self.paused

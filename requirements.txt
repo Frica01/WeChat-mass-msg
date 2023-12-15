@@ -1,4 +1,4 @@
 pyinstaller
 PySide6
-pywin32-ctypes==0.2.0
-uiautomation==2.0.18
+pywin32-ctypes
+uiautomation

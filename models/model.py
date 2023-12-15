@@ -9,8 +9,12 @@ from wechat_operation.wx_operation import WxOperation
 
 
 class WxModel:
+
     def __init__(self):
-        self.wx_operation = WxOperation()
+        try:
+            self.wx_operation = WxOperation()
+        except AssertionError:
+            pass
 
     def send_message(self, msgs, newline_msg, files, friend, add_remark_name):
         # 包装 wx_operation 的逻辑
