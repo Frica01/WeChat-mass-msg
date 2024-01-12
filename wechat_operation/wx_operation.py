@@ -77,7 +77,7 @@ class WxOperation:
             if current_panel_nickname:
                 return current_panel_nickname
 
-    def __goto_chat_box(self, name: str) -> None:
+    def __goto_chat_box(self, name: str) -> bool:
         """
         跳转到指定 name好友的聊天窗口。
 
@@ -93,8 +93,18 @@ class WxOperation:
         self.wx_window.SendKey(key=auto.SpecialKeyNames['DELETE'])
         auto.SetClipboardText(text=name)
         self.wx_window.SendKeys(text='{Ctrl}v', waitTime=0.1)
-        self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
-        time.sleep(1)
+        for idx, item in enumerate(self.wx_window.ListControl(foundIndex=2).GetChildren()):
+            _name = item.Name
+            if idx == 0:    # 跳过第一个 标签
+                continue
+            if _name == "":
+                return False
+            if _name == name:
+                item.Click(waitTime=0.2)
+                # self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
+                time.sleep(1)
+                return True
+        return False
 
     def __send_text(self, input_name, *msgs) -> None:
         """
@@ -293,7 +303,9 @@ class WxOperation:
 
         # 如果当前面板已经是需发送好友, 则无需再次搜索跳转
         if self.__get_current_panel_nickname() != name:
-            self.__goto_chat_box(name=name)
+            if not self.__goto_chat_box(name=name):
+                raise NameError('昵称不匹配')
+
         # 获取到真实的昵称（获取当前面板的备注名称）, 有时候好友昵称输入不全, 可以匹配到，但输入发送内容时候会报错
         name = self.__get_current_panel_nickname()
         #
