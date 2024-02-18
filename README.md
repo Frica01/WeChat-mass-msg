@@ -55,6 +55,38 @@
 
 </details>
 
+<details>
+
+<summary>2024/02/18 更新</summary>
+
+1. 快捷键唤醒和隐藏
+- 使用 `keyboard` 键盘监听模块，按下快捷键 `Ctrl+Alt+Q` 进行隐藏或展示工具
+```python
+import keyboard
+
+keyboard.add_hotkey('Ctrl+Alt+Q', window.restore_from_tray)
+```
+2. 最小化到任务栏
+- 使用 `Esc` 和 `Ctrl+Alt+Q` 都可以进行最小化到任务栏。
+```python
+def listen_keyboard(self):
+    # 键盘监听
+    shortcut = QShortcut(QKeySequence("Esc"), self)
+    # 当按下 Esc 键时隐藏窗口
+    shortcut.activated.connect(self.restore_from_tray)
+```
+3. 如果未登录微信程序在启动时候退出
+- 通过判断进程名称实现，使用 `psutil`
+```python
+import psutil
+
+def get_specific_process(proc_name: str = 'WeChat.exe') -> bool:
+    """获取指定进程是否存在"""
+    return any(proc.name() == proc_name for proc in psutil.process_iter(attrs=['name']))
+```
+
+</details>
+
 ## 安装依赖
 
 ```bash
@@ -80,14 +112,14 @@ pyinstaller -F -w --icon=resources/icon/icon.ico main.py
 
 
 ## TODO List
-
 - [x] 采用 多线程 `ThreadPool` + `QRunnable`，工具不会卡顿
 - [x] 拆解重构成MVC架构
 - [x] 添加暂停按钮
 - [x] 添加进度条
-- [ ] 最小化到右下方任务栏&快捷键唤醒
+- [x] 最小化到右下方任务栏&快捷键唤醒
 - [ ] 自定义配置，如导入名单，txt、csv、excel等格式
 - [ ] 自定义配置，如发送失败的名单记录导出
+- [ ] 重构 `GUI` 的代码，当前的 `MVC架构` 不够合理
 - [ ] ...
 
 

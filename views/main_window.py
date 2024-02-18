@@ -4,9 +4,11 @@
 # Date:         2023/11/28 10:35
 # Description:
 
+import os
+
 from PySide6.QtCore import (QPoint, Qt)
-from PySide6.QtGui import QAction
-from PySide6.QtWidgets import (QMainWindow, QGraphicsDropShadowEffect, QFileDialog, QMessageBox)
+from PySide6.QtGui import (QAction, QIcon, QShortcut, QKeySequence)
+from PySide6.QtWidgets import (QMainWindow, QGraphicsDropShadowEffect, QFileDialog, QMessageBox, QSystemTrayIcon, QMenu)
 
 from views.about_window import AboutWindow
 from views.ui.main_ui import Ui_MainWindow
@@ -34,6 +36,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # 置顶窗口
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+
+        #
+        self.listen_keyboard_chain()
+        self.flag = True
 
     def init_ui(self):
         # 隐藏边框
@@ -73,6 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #
         self.controller.progress_updated.connect(self.update_progress)
         self.btn_about.clicked.connect(lambda: AboutWindow().show())
+        #
 
     def init_text_edit_style(self):
         self.text_edit_msg.setPlaceholderText('在此处输入消息,\n一行为一条内容...')
@@ -210,7 +217,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # 在 MainWindow 类中重写 closeEvent 方法
     def closeEvent(self, event):
-        self.controller.minimize_wx()   # 最小化微信
+        self.controller.minimize_wx()  # 最小化微信
         self.controller.thread_pool.waitForDone()  # 等待所有线程完成
         event.accept()
 
@@ -219,3 +226,64 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.warning(self, title, message)
         else:
             QMessageBox.critical(self, title, message)
+
+    def tray_icon_activated(self, reason):
+        # 当系统托盘图标被激活时的操作
+        if reason == QSystemTrayIcon.ActivationReason.Trigger:
+            self.restore_from_tray()
+
+    def restore_from_tray(self):
+        # 还原窗口
+        if self.flag:
+            self.hide()
+            self.flag = not self.flag
+        else:
+            self.showNormal()
+            self.flag = not self.flag
+
+    def create_actions(self):
+        # 创建系统托盘图标菜单的动作
+        self._restore_action = QAction("显示", self)
+        self._restore_action.triggered.connect(self.restore_from_tray)  # "显示"菜单项触发还原窗口的操作
+
+        self._quit_action = QAction("退出", self)
+        self._quit_action.triggered.connect(lambda: os._exit(0))  # "退出"菜单项触发退出应用程序的操作
+
+    def create_tray_icon(self):
+        # 创建系统托盘图标的菜单
+        self._tray_icon_menu = QMenu(self)
+        self._tray_icon_menu.addAction(self._restore_action)
+        self._tray_icon_menu.addSeparator()
+        self._tray_icon_menu.addAction(self._quit_action)
+
+        self.tray_icon.setContextMenu(self._tray_icon_menu)
+        self.tray_icon.show()
+
+    def listen_keyboard(self):
+        # 键盘监听
+        shortcut = QShortcut(QKeySequence("Esc"), self)
+        # 当按下 Esc 键时隐藏窗口
+        shortcut.activated.connect(self.restore_from_tray)
+
+    def listen_keyboard_chain(self):
+        # 创建系统托盘图标相关的变量和对象
+        self._restore_action = QAction()
+        self._quit_action = QAction()
+        self._tray_icon_menu = QMenu()
+
+        # 创建系统托盘图标
+        self.tray_icon = QSystemTrayIcon(self)
+        # self.tray_icon.setIcon(QIcon(u":resources/images/trash.png"))
+        self.tray_icon.setIcon(QIcon(u":/trash.png"))
+        self.tray_icon.setToolTip("辅助小工具")
+
+        # 创建系统托盘图标的菜单和动作
+        self.create_actions()
+        self.create_tray_icon()
+        self.tray_icon.show()
+
+        # 连接系统托盘图标的激活信号到槽函数
+        self.tray_icon.activated.connect(self.tray_icon_activated)
+
+        # 键盘监听
+        self.listen_keyboard()

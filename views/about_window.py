@@ -30,6 +30,8 @@ class AboutWindow(QWidget, Ui_Frame):
         #
         self.button_access.clicked.connect(lambda: webbrowser.open('https://frica.blog.csdn.net/?type=blog'))
         self.button_bug.clicked.connect(lambda: webbrowser.open('https://github.com/Frica01/Wechat_mass_msg/issues'))
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+
 
     # 鼠标点击事件产生
     def mousePressEvent(self, event):

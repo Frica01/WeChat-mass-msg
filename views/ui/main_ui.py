@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGridLayout,
     QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
     QRadioButton, QSizePolicy, QTextEdit, QVBoxLayout,
     QWidget)
+from views.ui import utils_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

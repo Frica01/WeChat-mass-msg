@@ -51,7 +51,6 @@ class WxOperation:
         self.__wake_up_window()  # Windows系统层面唤醒微信窗口
         self.wx_window = auto.WindowControl(Name='微信', ClassName='WeChatMainWndForPC')
         assert self.wx_window.Exists(3, .5), "窗口不存在"
-        # self.input_edit = self.wx_window.EditControl(Name='输入')
         self.search_edit = self.wx_window.EditControl(Name='搜索')
 
     @staticmethod
@@ -100,9 +99,9 @@ class WxOperation:
             if _name == "":
                 return False
             if _name == name:
-                item.Click(waitTime=0.2)
+                item.Click(waitTime=0.1)
                 # self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
-                time.sleep(1)
+                time.sleep(.8)
                 return True
         return False
 
