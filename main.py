@@ -1,13 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import sys
 from ctypes import windll
 
-import keyboard
 from PySide6 import QtGui
-from PySide6.QtWidgets import QApplication, QMessageBox
+from PySide6.QtWidgets import (QApplication, QMessageBox)
 
-from controller.controller import WxController
-from models.model import WxModel
-from views.main_window import MainWindow
+from controller.controller import ControllerMain
 from utils.utils import get_specific_process
 
 try:
@@ -22,11 +21,8 @@ if __name__ == "__main__":
     app.setWindowIcon(QtGui.QIcon(r'F:\python\GitHub\WeChat-mass-msg\resources\icon\icon.ico'))
     wechat_process = get_specific_process()
     if wechat_process:
-        model = WxModel()
-        controller = WxController(model)
-        window = MainWindow(controller)
-        keyboard.add_hotkey('Ctrl+Alt+Q', window.restore_from_tray)
-        window.show()
+        controller = ControllerMain()
+        controller.view.show()
         sys.exit(app.exec())
     else:
         # 如果微信没启动, 则不向下运行!

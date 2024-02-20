@@ -14,10 +14,9 @@ from views.about_window import AboutWindow
 from views.ui.main_ui import Ui_MainWindow
 
 
-class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, controller):
+class ViewMian(QMainWindow, Ui_MainWindow):
+    def __init__(self):
         super().__init__()
-        self.controller = controller
 
         # 首先声明所有实例变量
         self._move = False
@@ -32,7 +31,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.init_text_edit_style()
         self.init_drag_and_drop()
         self.init_window_position()
-        self.init_progress()
 
         # 置顶窗口
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
@@ -46,14 +44,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.set_graphics_effect()
-
-    @property
-    def is_wx_activated(self) -> bool:
-        """判断微信是否启动"""
-        if not self.controller.has_wx_instance():
-            self.show_message_box('严重错误🆘', "微信未启动!", level='error')
-            return False
-        return True
 
     def set_graphics_effect(self):
         # 添加阴影
@@ -71,13 +61,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_reset_recipient.clicked.connect(self.text_edit_recipient.clear)
         self.btn_reset_recipient.clicked.connect(self.reset_radio_btn)
         self.btn_reset_all.clicked.connect(self.reset_all)
-        self.btn_send.clicked.connect(self.on_send_clicked)
-        self.btn_pause_or_continue.clicked.connect(self.toggle_pause)
         #
         self.btn_close.clicked.connect(lambda: self.close())
         self.btn_min.clicked.connect(lambda: self.showMinimized())
         #
-        self.controller.progress_updated.connect(self.update_progress)
         self.btn_about.clicked.connect(lambda: AboutWindow().show())
         #
 
@@ -111,17 +98,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.list_widget_file.addAction(right_menu)
 
     def init_progress(self):
-        # 清空下面
         self.progress_label.setText('当前未有任务运行!')
         self.progress_bar.setValue(100)
 
-    def toggle_pause(self):
-        self.controller.toggle_pause()
-        # 切换按钮文本
-        current_text = self.btn_pause_or_continue.text()
-        self.btn_pause_or_continue.setText('暂停发送' if current_text == '继续发送' else '继续发送')
+    def update_progress(self, current, total):
+        if total > 0:
+            progress = int((current / total) * 100)
+            self.progress_bar.setValue(progress)
+            self.progress_label.setText(f"已发送 {current}位好友，需发送 {total}位好友")
+        else:
+            self.progress_bar.setValue(0)
+            self.progress_label.setText("未开始")
 
-    def on_send_clicked(self):
+    def get_data(self) -> dict:
+        """获取 GUI 工具填写的信息"""
         msgs = self.text_edit_msg.toPlainText()
         newline_msg = self.text_edit_msg_newline.toPlainText()
         add_remark_name = True if self.cbox_add_remark_name.checkState().value else False
@@ -133,7 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not any([msgs, files]) or not friends:
             self.show_message_box('警告⚠', "消息和文件不可同时为空\n       联系人不可为空")
             return
-        data = {
+        return {
             'msgs': msgs,
             'newline_msg': newline_msg,
             'add_remark_name': add_remark_name,
@@ -142,16 +132,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             'is_specify_tag': is_specify_tag,
             'is_specify_group': is_specify_group
         }
-        self.controller.start_sending_messages(**data)
-
-    def update_progress(self, current, total):
-        if total > 0:
-            progress = int((current / total) * 100)
-            self.progress_bar.setValue(progress)
-            self.progress_label.setText(f"已发送 {current}位好友，需发送 {total}位好友")
-        else:
-            self.progress_bar.setValue(0)
-            self.progress_label.setText("未开始")
 
     def reset_radio_btn(self):
         self.radio_btn_specify_tag.setAutoExclusive(False)
@@ -214,12 +194,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # 鼠标释放事件
     def mouseReleaseEvent(self, QMouseEvent):
         self._move = False
-
-    # 在 MainWindow 类中重写 closeEvent 方法
-    def closeEvent(self, event):
-        self.controller.minimize_wx()  # 最小化微信
-        self.controller.thread_pool.waitForDone()  # 等待所有线程完成
-        event.accept()
 
     def show_message_box(self, title, message, level='warning'):
         if level == 'warning':

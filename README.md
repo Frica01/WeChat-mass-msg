@@ -87,6 +87,12 @@
 
 </details>
 
+<details>
+<summary>2024/02/10 更新</summary>
+<h5>重新调整了 `MVC` 架构</h5>
+- GUI 工具更加健壮
+</details>
+
 ## 安装依赖
 
 ```bash
@@ -117,9 +123,9 @@ pyinstaller -F -w --icon=resources/icon/icon.ico main.py
 - [x] 添加暂停按钮
 - [x] 添加进度条
 - [x] 最小化到右下方任务栏&快捷键唤醒
+- [x] 重构 `GUI` 的代码，当前的 `MVC架构` 不够合理
 - [ ] 自定义配置，如导入名单，txt、csv、excel等格式
 - [ ] 自定义配置，如发送失败的名单记录导出
-- [ ] 重构 `GUI` 的代码，当前的 `MVC架构` 不够合理
 - [ ] ...
 
 

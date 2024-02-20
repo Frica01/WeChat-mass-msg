@@ -99,8 +99,8 @@ class WxOperation:
             if _name == "":
                 return False
             if _name == name:
-                item.Click(waitTime=0.1)
-                # self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
+                # item.Click(waitTime=0.1)
+                self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
                 time.sleep(.8)
                 return True
         return False
@@ -125,9 +125,12 @@ class WxOperation:
                 continue
             self.input_edit.SendKeys(text='{Ctrl}a', waitTime=0.1)
             self.input_edit.SendKey(key=auto.SpecialKeyNames['DELETE'])
+            self.input_edit.SendKeys(text='{Ctrl}a', waitTime=0.1)
+            self.input_edit.SendKey(key=auto.SpecialKeyNames['DELETE'])
             # self.input_edit.SendKeys(text=msg, waitTime=0.1) # 一个个字符插入,不建议使用该方法
             # 设置到剪切板再黏贴到输入框
             auto.SetClipboardText(text=msg)
+            time.sleep(.2)
             self.input_edit.SendKeys(text='{Ctrl}v', waitTime=0.1)
             self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
 

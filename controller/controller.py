@@ -5,77 +5,58 @@
 # Description:
 
 
-from PySide6.QtCore import (QRunnable, QThreadPool, QMutex, QWaitCondition, QMutexLocker, QObject, Signal)
+import keyboard
+from PySide6.QtCore import (QMutex, QWaitCondition, QMutexLocker, QObject, Signal)
+
+from models.model import ModelMain
+from views.main_window import ViewMian
 
 
-class WxOperationRunnable(QRunnable):
-    def __init__(self, controller, model, *args, **kwargs):
+class ControllerMain(QObject):
+    progress_updated_signal = Signal(int, int)  # 进度条 signal
+
+    def __init__(self):
         super().__init__()
-        self.controller = controller
-        self.model = model
-        self.args = args
-        self.kwargs = kwargs
+        self.model = ModelMain()
+        self.view = ViewMian()
 
-    def run(self):
-        self.controller.check_pause()
-        self.model.send_message(*self.args, **self.kwargs)
-        self.controller.task_completed()  # 通知控制器任务完成
-
-
-class WxController(QObject):
-    progress_updated = Signal(int, int)
-
-    def __init__(self, model):
-        super().__init__()
-        self.model = model
-        self.minimize_wx = model.wx_operation.minimize_wx
-        #
-        self.thread_pool = QThreadPool()
-        self.thread_pool.setMaxThreadCount(1)
-        #
+        # 互斥锁 和 条件等待
         self.paused = False
         self.mutex = QMutex()
         self.pause_condition = QWaitCondition()
-        #
-        self.completed_tasks = 0
-        self.total_tasks = 0
 
-    # @property
-    def has_wx_instance(self) -> bool:
-        """判断微信是否存在"""
-        if hasattr(self.model, 'wx_operation'):
-            return True
-        return False
+        # 进度条 signal 连接到 view.update_progress 函数
+        self.progress_updated_signal.connect(self.view.update_progress)
+        self.view.init_progress()
+        self.view.btn_send.clicked.connect(self.on_send_clicked)
+        self.view.btn_pause_or_continue.clicked.connect(self.toggle_pause)
+
+        # 设置快捷键
+        keyboard.add_hotkey('Ctrl+Alt+Q', self.view.restore_from_tray)
 
     def toggle_pause(self):
+        """切换暂停状态"""
         self.paused = not self.paused
         with QMutexLocker(self.mutex):
             if not self.paused:
                 self.pause_condition.wakeAll()
+        # 切换按钮文本
+        current_text = self.view.btn_pause_or_continue.text()
+        self.view.btn_pause_or_continue.setText('暂停发送' if current_text == '继续发送' else '继续发送')
 
     def check_pause(self):
+        """检查暂停"""
         if self.paused:
             with QMutexLocker(self.mutex):
                 self.pause_condition.wait(self.mutex)
 
-    def start_sending_messages(self, msgs, newline_msg, add_remark_name, files, friends, is_specify_tag,
-                               is_specify_group):
-        if is_specify_group:
-            friends = [friend for friend in friends.split()]
-        # 判断是否点击标签
-        elif is_specify_tag:
-            friends = self.model.get_tag_friend_list(friends)
-        else:
-            friends = [friend for friend in friends.split()]
-
-        self.completed_tasks = 0
-        self.total_tasks = len(friends)
-        self.progress_updated.emit(self.completed_tasks, self.total_tasks)
-        for idx, friend in enumerate(friends):
-            runnable = WxOperationRunnable(self, self.model, msgs, newline_msg, files, friend, add_remark_name)
-            self.thread_pool.start(runnable)
-
-    def task_completed(self):
-        # 每完成一个任务，计数器加一
-        self.completed_tasks += 1
-        self.progress_updated.emit(self.completed_tasks, self.total_tasks)
+    def on_send_clicked(self):
+        """点击发送"""
+        # 获取 GUI 工具面板的信息
+        data = self.view.get_data()
+        # 开始发送，传递检查暂停函数和进度条信号
+        self.model.run_send_msg(
+            **data,
+            check_pause=self.check_pause,
+            progress_updated_signal=self.progress_updated_signal
+        )
