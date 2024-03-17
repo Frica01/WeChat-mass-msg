@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>632</height>
+    <width>644</width>
+    <height>714</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,8 +23,8 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>100</x>
+      <y>40</y>
       <width>454</width>
       <height>632</height>
      </rect>
@@ -927,14 +927,14 @@ QListWidget {
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
          <widget class="QLabel" name="progress_label">
           <property name="text">
-           <string>共xx, 已完成xx</string>
+           <string>当前未有任务运行!</string>
           </property>
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
          <widget class="QProgressBar" name="progress_bar">
           <property name="value">
-           <number>24</number>
+           <number>100</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

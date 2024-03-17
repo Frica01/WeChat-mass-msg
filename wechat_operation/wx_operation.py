@@ -64,17 +64,21 @@ class WxOperation:
     @staticmethod
     def __wake_up_window():
         """唤醒微信窗口"""
-        hwnd = win32gui.FindWindow('WeChatMainWndForPC', '微信')
-        # 展示窗口
-        win32gui.SetForegroundWindow(hwnd)
-        win32gui.ShowWindow(hwnd, win32con.SW_SHOWDEFAULT)
+        if hwnd := win32gui.FindWindow('WeChatMainWndForPC', '微信'):
+            # 展示窗口
+            win32gui.SetForegroundWindow(hwnd)
+            win32gui.ShowWindow(hwnd, win32con.SW_SHOWDEFAULT)
 
-    def __get_current_panel_nickname(self) -> str:
+    def __match_nickname(self, name) -> bool:
         """获取当前面板的好友昵称"""
-        for idx in range(1, 10):
-            current_panel_nickname = self.wx_window.TextControl(foundIndex=idx).Name
-            if current_panel_nickname:
-                return current_panel_nickname
+        # for idx in range(1, 10):
+        #     current_panel_nickname = self.wx_window.TextControl(foundIndex=idx).Name
+        #     if current_panel_nickname:
+        #         return current_panel_nickname
+        input_edit = self.wx_window.EditControl(Name=name)
+        if input_edit.Exists(0.1, 0.1):
+            return True
+        return False
 
     def __goto_chat_box(self, name: str) -> bool:
         """
@@ -91,17 +95,19 @@ class WxOperation:
         self.wx_window.SendKeys(text='{Ctrl}a', waitTime=0.1)
         self.wx_window.SendKey(key=auto.SpecialKeyNames['DELETE'])
         auto.SetClipboardText(text=name)
+        time.sleep(.2)
         self.wx_window.SendKeys(text='{Ctrl}v', waitTime=0.1)
         for idx, item in enumerate(self.wx_window.ListControl(foundIndex=2).GetChildren()):
             _name = item.Name
-            if idx == 0:    # 跳过第一个 标签
+            if idx == 0:  # 跳过第一个 标签
                 continue
             if _name == "":
+                self.wx_window.SendKeys(text='{Esc}', waitTime=0.1)  # 取消搜索
                 return False
             if _name == name:
                 # item.Click(waitTime=0.1)
                 self.wx_window.SendKey(key=auto.SpecialKeyNames['ENTER'], waitTime=0.2)
-                time.sleep(.8)
+                time.sleep(.5)
                 return True
         return False
 
@@ -123,6 +129,10 @@ class WxOperation:
                 self.input_edit = self.wx_window.EditControl(Name=input_name)
             except LookupError:
                 continue
+            # 设置输入框为焦点并点击
+            self.input_edit.SetFocus()
+            auto.PressMouse(*self.input_edit.GetPosition(), waitTime=0.1)
+            auto.ReleaseMouse(waitTime=0.1)
             self.input_edit.SendKeys(text='{Ctrl}a', waitTime=0.1)
             self.input_edit.SendKey(key=auto.SpecialKeyNames['DELETE'])
             self.input_edit.SendKeys(text='{Ctrl}a', waitTime=0.1)
@@ -304,12 +314,12 @@ class WxOperation:
         assert not isinstance(file_paths, str), "文件路径必须为可迭代且非字符串类型"
 
         # 如果当前面板已经是需发送好友, 则无需再次搜索跳转
-        if self.__get_current_panel_nickname() != name:
+        if not self.__match_nickname(name=name):
             if not self.__goto_chat_box(name=name):
                 raise NameError('昵称不匹配')
 
         # 获取到真实的昵称（获取当前面板的备注名称）, 有时候好友昵称输入不全, 可以匹配到，但输入发送内容时候会报错
-        name = self.__get_current_panel_nickname()
+        # TODO 模糊匹配姓名
         #
         if msgs and add_remark_name:
             new_msgs = deepcopy(msgs)

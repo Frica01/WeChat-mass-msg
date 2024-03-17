@@ -90,7 +90,16 @@
 <details>
 <summary>2024/02/10 更新</summary>
 <h5>重新调整了 `MVC` 架构</h5>
+
 - GUI 工具更加健壮
+</details>
+
+
+<details>
+<summary>2024/03/18 更新</summary>
+<h5>小修小补，修复了一些常见的错误</h5>
+
+- 定位到好友窗口更加精准，具体看commit
 </details>
 
 ## 安装依赖
@@ -118,6 +127,7 @@ pyinstaller -F -w --icon=resources/icon/icon.ico main.py
 
 
 ## TODO List
+- [ ] 重构`GUI`，提上议程-2024-03-18
 - [x] 采用 多线程 `ThreadPool` + `QRunnable`，工具不会卡顿
 - [x] 拆解重构成MVC架构
 - [x] 添加暂停按钮
