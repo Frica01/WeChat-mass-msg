@@ -2,6 +2,12 @@
 
 微信群发消息，Windows系统客户端（PC端
 
+
+# 这是船新版本！点击使用船新版本！
+- 船新版本的微信群发工具！
+[https://github.com/Frica01/WeChatMassTool](https://github.com/Frica01/WeChatMassTool)
+
+
 ## 主要技术
 - `gui` 使用了 `pyside6`
 - 操作 `WeChat` 的模块是 `uiautomation`
